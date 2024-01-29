@@ -28,8 +28,8 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
 		return http
-				.csrf(csrf -> csrf
-						.disable())
+				.csrf(csrf -> csrf.disable())
+				.headers(he -> he.disable())
 				.authorizeHttpRequests(
 						authRequest -> authRequest
 										.requestMatchers(new AntPathRequestMatcher("/h2-console/**"),

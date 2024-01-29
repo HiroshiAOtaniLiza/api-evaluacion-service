@@ -3,24 +3,35 @@ package com.evaluacion.service.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.evaluacion.service.bean.AuthResponse;
 import com.evaluacion.service.bean.UserRequest;
+import com.evaluacion.service.dao.FormatPasswordRepository;
 import com.evaluacion.service.dao.UserRepository;
+import com.evaluacion.service.exceptions.ExistException;
+import com.evaluacion.service.model.MFormatPassword;
 import com.evaluacion.service.model.MUser;
 import com.evaluacion.service.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-	private final UserRepository userDao;
-	private final PasswordEncoder passwordEncoder;
-	private final JwtService jwtService;
+	@Autowired
+	private UserRepository userDao;
+	
+	@Autowired
+	private FormatPasswordRepository formatPasswordDao;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private JwtService jwtService;
 
 	@Override
 	public List<MUser> AllUsers() {
@@ -37,16 +48,31 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public AuthResponse saveUser(UserRequest request) {
+	public AuthResponse saveUser(UserRequest request) throws ExistException {
+		
+		if(!request.getEmail().matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" 
+		        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+			throw new IllegalArgumentException("Correo con mal formato");
+		}
+		if(!request.getPassword().matches(formatPasswordDao.findById(1).get().getFormat())) {
+			throw new IllegalArgumentException("Password con mal formato");
+		}
 		
 		MUser user = MUser.builder()
 							.email(request.getEmail())
 							.name(request.getName())
-							.password(passwordEncoder.encode(request.getPassword())).build();
+							.password(passwordEncoder.encode(request.getPassword()))
+							.phones(request.getPhones()).build();
 
 		userDao.save(user);
 
 		return AuthResponse.builder().token(jwtService.getToken(user)).build();
+	}
+
+	@Override
+	public MFormatPassword saveFormatPassword(MFormatPassword formatPassword) {
+		formatPassword.setId(1);
+		return formatPasswordDao.save(formatPassword);
 	}
 
 }

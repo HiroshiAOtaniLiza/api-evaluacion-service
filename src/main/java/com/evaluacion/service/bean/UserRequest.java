@@ -1,5 +1,9 @@
 package com.evaluacion.service.bean;
 
+import java.util.List;
+
+import com.evaluacion.service.model.MPhone;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +25,6 @@ public class UserRequest {
 	
 	private String password;
 	
-	private Integer featureId;
+	private List<MPhone> phones;
 	
 }

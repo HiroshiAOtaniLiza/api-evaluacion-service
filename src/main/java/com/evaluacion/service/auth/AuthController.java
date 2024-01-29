@@ -1,5 +1,6 @@
 package com.evaluacion.service.auth;
 
+import java.util.EmptyStackException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException.Forbidden;
 
 import com.evaluacion.service.bean.LoginRequest;
 import com.evaluacion.service.bean.UserRequest;
+import com.evaluacion.service.exceptions.ExistException;
+import com.evaluacion.service.exceptions.NotExistException;
+import com.evaluacion.service.model.MFormatPassword;
 import com.evaluacion.service.model.MUser;
 import com.evaluacion.service.service.AuthService;
 import com.evaluacion.service.service.UserService;
@@ -35,24 +40,33 @@ public class AuthController {
 	}
 
 	@PostMapping("/save")
-	public ResponseEntity<?> saveUser(@RequestBody UserRequest user) {
+	public ResponseEntity<?> saveUser(@RequestBody UserRequest user) throws ExistException {
+		MUser userFind = userService.getUser(user.getEmail());
+		if (userFind != null) {
+			throw new ExistException("El correo ya registrado");
+		}
 		return ResponseEntity.ok(userService.saveUser(user));
+	}
+	
+	@PostMapping("/saveFormatPassword")
+	public ResponseEntity<?> saveFormatPassword(@RequestBody MFormatPassword formatPassword) {
+		return ResponseEntity.ok(userService.saveFormatPassword(formatPassword));
 	}
 
 	@PatchMapping("/getAll")
-	public ResponseEntity<?> getAll() throws InterruptedException {
+	public ResponseEntity<?> getAll() throws NotExistException {
 		List<MUser> listUser = userService.AllUsers();
 		if (listUser.isEmpty()) {
-			throw new InterruptedException("No hay Usuarios en la Base de Datos!");
+			throw new NotExistException("No hay Usuarios en la Base de Datos!");
 		}
 		return new ResponseEntity<>(listUser, HttpStatus.OK);
 	}
 
 	@GetMapping("/get/{email}")
-	public ResponseEntity<?> getUserById(@PathVariable String email) throws InterruptedException {
+	public ResponseEntity<?> getUserById(@PathVariable String email) throws NotExistException {
 		MUser user = userService.getUser(email);
 		if (user == null) {
-			throw new InterruptedException("El Usuario: ".concat(email).concat(" no existe en la base de datos!"));
+			throw new NotExistException("El Usuario: ".concat(email).concat(" no existe en la base de datos!"));
 		}
 		return new ResponseEntity<>(user, HttpStatus.OK);
 
