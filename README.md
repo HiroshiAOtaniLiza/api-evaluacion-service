@@ -39,13 +39,6 @@ Comandos
     ```
 
 
- - Generar war, ejecutando solo test de integración:
- 
-    ```
-    mvn clean verify -P integration-test
-    ```
-
-
 Urls de acceso:
 
  - Swagger check -> http://localhost:8080/v3/api-docs?group=books-api
