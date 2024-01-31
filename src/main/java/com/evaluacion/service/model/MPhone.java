@@ -21,7 +21,7 @@ public class MPhone {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "Id")
     private Integer id;
 	
 	@Column(name = "number", nullable = false)

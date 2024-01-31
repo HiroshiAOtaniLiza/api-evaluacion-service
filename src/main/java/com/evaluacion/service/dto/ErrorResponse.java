@@ -1,4 +1,4 @@
-package com.evaluacion.service.bean;
+package com.evaluacion.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

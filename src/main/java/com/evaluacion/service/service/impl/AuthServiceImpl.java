@@ -6,9 +6,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.evaluacion.service.bean.AuthResponse;
-import com.evaluacion.service.bean.LoginRequest;
 import com.evaluacion.service.dao.UserRepository;
+import com.evaluacion.service.dto.AuthResponse;
+import com.evaluacion.service.dto.LoginRequest;
 import com.evaluacion.service.service.AuthService;
 
 @Service

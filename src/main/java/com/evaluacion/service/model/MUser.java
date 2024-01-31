@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,15 +25,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MUser implements UserDetails {
-	
-	private static final long serialVersionUID = 1L;
 
-	@Column(name = "nombre", nullable = false)
-	private String name;
-	
+	private static final long serialVersionUID = -1022641072586439804L;
+
 	@Id
 	@Column(name = "correo", nullable = false)
 	private String email;
+	
+	@Column(name = "nombre", nullable = false)
+	private String name;
 	
 	@Column(name = "contrasenia", nullable = false)
 	private String password;

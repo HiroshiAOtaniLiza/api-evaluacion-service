@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.evaluacion.service.bean.AuthResponse;
-import com.evaluacion.service.bean.UserRequest;
 import com.evaluacion.service.dao.FormatPasswordRepository;
 import com.evaluacion.service.dao.UserRepository;
+import com.evaluacion.service.dto.AuthResponse;
+import com.evaluacion.service.dto.UserRequest;
 import com.evaluacion.service.exceptions.ExistException;
 import com.evaluacion.service.model.MFormatPassword;
 import com.evaluacion.service.model.MUser;
