@@ -33,7 +33,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests(
 						authRequest -> authRequest
 										.requestMatchers(new AntPathRequestMatcher("/h2-console/**"),
-												new AntPathRequestMatcher("/doc/**"), new AntPathRequestMatcher("/v3/api-docs/**"), mvc.pattern("/auth/**"), mvc.pattern("/resources/**"))
+												new AntPathRequestMatcher("/doc/**"), new AntPathRequestMatcher("/v3/api-docs/**"), 
+												mvc.pattern("/auth/**"), mvc.pattern("/resources/**"))
 										.permitAll()
 										.anyRequest()
 								.authenticated())

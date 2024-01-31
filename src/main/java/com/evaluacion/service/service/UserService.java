@@ -16,6 +16,6 @@ public interface UserService {
 	
 	AuthResponse saveUser(UserRequest user) throws ExistException;
 	
-	MFormatPassword saveFormatPassword(MFormatPassword formatPassword);
+	MFormatPassword saveFormatPassword(String formatPassword);
 
 }

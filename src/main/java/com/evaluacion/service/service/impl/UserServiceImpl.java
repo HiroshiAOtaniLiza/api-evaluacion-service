@@ -70,9 +70,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public MFormatPassword saveFormatPassword(MFormatPassword formatPassword) {
-		formatPassword.setId(1);
-		return formatPasswordDao.save(formatPassword);
+	public MFormatPassword saveFormatPassword(String formatPassword) {
+		MFormatPassword fPassword = MFormatPassword.builder().id(1).format(formatPassword).build();
+		return formatPasswordDao.save(fPassword);
 	}
 
 }

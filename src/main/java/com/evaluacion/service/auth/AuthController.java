@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.evaluacion.service.dto.FormatPassword;
 import com.evaluacion.service.dto.LoginRequest;
 import com.evaluacion.service.dto.UserRequest;
 import com.evaluacion.service.exceptions.ExistException;
 import com.evaluacion.service.exceptions.NotExistException;
-import com.evaluacion.service.model.MFormatPassword;
 import com.evaluacion.service.model.MUser;
 import com.evaluacion.service.service.AuthService;
 import com.evaluacion.service.service.UserService;
@@ -47,8 +47,8 @@ public class AuthController {
 	}
 	
 	@PostMapping("/saveFormatPassword")
-	public ResponseEntity<?> saveFormatPassword(@RequestBody MFormatPassword formatPassword) {
-		return ResponseEntity.ok(userService.saveFormatPassword(formatPassword));
+	public ResponseEntity<?> saveFormatPassword(@RequestBody FormatPassword formatPassword) {
+		return ResponseEntity.ok(userService.saveFormatPassword(formatPassword.getFormat()));
 	}
 
 	@PatchMapping("/getAll")
